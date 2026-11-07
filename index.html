@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Agricultural Crop Management Platform to track fields, crops, stages, irrigation, fertilizers, pests, and harvesting.">
+  <meta name="keywords" content="crop management, agriculture, farming, field tracker">
+  <meta name="author" content="Student">
+  <title>AgriTrack - Crop Management Platform</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="brand">
+      <svg class="brand-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2a10 10 0 0 1 10 10c0 5.5-4.5 10-10 10S2 17.5 2 12A10 10 0 0 1 12 2z"></path>
+        <path d="M12 6v12"></path>
+        <path d="M8 10l4-4 4 4"></path>
+      </svg>
+      <h1>AgriTrack</h1>
+    </div>
+    <nav>
+      <ul class="menu-list">
+        <li><a href="#stats-panel">Summary</a></li>
+        <li><a href="#entry-form">Add Record</a></li>
+        <li><a href="#records-section">Field Log</a></li>
+        <li><a href="#media-section">Guides</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="page-container">
+
+    <section id="stats-panel" class="box">
+      <div class="box-header">
+        <h2>Farm Overview</h2>
+        <button id="locate-btn" type="button" class="btn btn-outline">Check Field Location</button>
+      </div>
+      <p id="geo-info" class="hint-text">Location: Not acquired yet.</p>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <span id="field-count" class="number">0</span>
+          <span class="label">Total Records</span>
+        </div>
+        <div class="stat-card">
+          <span id="harvest-count" class="number">0</span>
+          <span class="label">Ready for Harvest</span>
+        </div>
+        <div class="stat-card">
+          <span id="pest-count" class="number">0</span>
+          <span class="label">Pest Warnings</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="entry-form" class="box">
+      <h2>Add Field Activity</h2>
+      <form id="crop-entry-form" novalidate>
+
+        <div class="grid-two">
+          <div class="input-block">
+            <label for="plot-name">Field / Plot Name</label>
+            <input type="text" id="plot-name" name="plotName" placeholder="e.g. North Plot 1" required>
+            <span id="plot-name-msg" class="field-error"></span>
+          </div>
+
+          <div class="input-block">
+            <label for="crop-type">Crop Name</label>
+            <input type="text" id="crop-type" name="cropType" placeholder="e.g. Wheat" required>
+            <span id="crop-type-msg" class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="grid-two">
+          <div class="input-block">
+            <label for="crop-stage">Cultivation Stage</label>
+            <select id="crop-stage" name="cropStage" required>
+              <option value="">-- Choose Stage --</option>
+              <option value="Sowing">Sowing</option>
+              <option value="Vegetative">Vegetative</option>
+              <option value="Flowering">Flowering</option>
+              <option value="Ripening">Ripening</option>
+              <option value="Harvesting">Harvesting</option>
+            </select>
+            <span id="crop-stage-msg" class="field-error"></span>
+          </div>
+
+          <div class="input-block">
+            <label for="log-date">Activity Date</label>
+            <input type="date" id="log-date" name="logDate" required>
+            <span id="log-date-msg" class="field-error"></span>
+          </div>
+        </div>
+
+        <div class="grid-two">
+          <div class="input-block">
+            <label for="irrigation-notes">Irrigation Record</label>
+            <input type="text" id="irrigation-notes" name="irrigationNotes" placeholder="e.g. Drip 30mm">
+          </div>
+
+          <div class="input-block">
+            <label for="fertilizer-used">Fertilizer Application</label>
+            <input type="text" id="fertilizer-used" name="fertilizerUsed" placeholder="e.g. Urea 25kg">
+          </div>
+        </div>
+
+        <div class="grid-two">
+          <div class="input-block">
+            <label for="pest-status">Pest Observation</label>
+            <input type="text" id="pest-status" name="pestStatus" placeholder="e.g. Aphids noticed or None">
+          </div>
+
+          <div class="input-block">
+            <label for="harvest-state">Harvest Status</label>
+            <select id="harvest-state" name="harvestState">
+              <option value="In Progress">In Progress</option>
+              <option value="Scheduled">Scheduled</option>
+              <option value="Completed">Completed</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-save">Save Record</button>
+      </form>
+    </section>
+
+    <section id="records-section" class="box">
+      <div class="box-header">
+        <h2>Field Activity Log</h2>
+        <button id="wipe-btn" type="button" class="btn btn-danger">Clear All</button>
+      </div>
+
+      <div class="table-scroll">
+        <table id="crop-table">
+          <caption>Recorded farming stages and inputs per field</caption>
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">Crop</th>
+              <th scope="col">Stage</th>
+              <th scope="col">Date</th>
+              <th scope="col">Irrigation</th>
+              <th scope="col">Fertilizer</th>
+              <th scope="col">Pests</th>
+              <th scope="col">Harvest</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody id="table-rows">
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="media-section" class="box">
+      <h2>Farming Audio Guidelines</h2>
+      <div class="grid-two">
+        <div class="media-box">
+          <h3>Pest Management Audio Note</h3>
+          <audio controls preload="none">
+            <source src="https://actions.google.com/sounds/v1/weather/light_rain.ogg" type="audio/ogg">
+            Your browser does not support audio playback.
+          </audio>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bottom-bar">
+    <p>&copy; 2026 AgriTrack Platform. Designed for practical agricultural management.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
